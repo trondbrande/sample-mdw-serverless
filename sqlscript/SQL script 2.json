@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/dataModelName=data_model_1/y=2022/m=06/d=24/data_a50f8ab9-01f4-4e65-af87-0561deddae56_a5b7a3fd-6210-4ef5-a3ce-2db8c70a31e7.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

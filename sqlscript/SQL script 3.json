@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 3",
+	"properties": {
+		"content": {
+			"query": "-- run with default settings to validate data exists\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/**',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n-- create db \nCREATE DATABASE MedallionDB\n\n-- use db\nUSE MedallionDB\n\n-- create the view\nCREATE VIEW MedallionView\nAS SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/**',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n-- add managed identity credentials\nCREATE CREDENTIAL [https://medalionlaketbmdw.dfs.core.windows.net] WITH IDENTITY='Managed Identity'\n\n-- switch back to master before executing this to grant access\nGRANT REFERENCES ON CREDENTIAL::[https://medalionlaketbmdw.dfs.core.windows.net] TO sqladminuser\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
