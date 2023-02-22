@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "medalionsynapsetbmdw"
+		},
+		"SQL on Demand_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=\"@{concat(\n    'medalionsynapse', \n    linkedService().suffix,\n    '-ondemand.sql.azuresynapse.net'\n)}\";Initial Catalog=factories"
+		},
+		"factories functions_functionKey": {
+			"value": ""
+		},
+		"medalionsynapsetbmdw-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:medalionsynapsetbmdw.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"factories functions_properties_typeProperties_functionAppUrl": {
+			"value": "parameters('function_url)"
+		},
+		"medalion_storage_properties_typeProperties_url": {
+			"value": "@{concat('https://medalionlake',linkedService().suffix, '.dfs.core.windows.net/') }"
+		},
+		"medalionsynapsetbmdw-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://medalionlaketbmdw.dfs.core.windows.net"
+		},
+		"medallion_kv_ls_properties_typeProperties_baseUrl": {
+			"value": "@{concat('https://medallionakv',linkedService().suffix, '.vault.azure.net/') }"
+		},
+		"sample_data_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/Azure-Samples/sample-mdw-serverless/main/sample_data/"
+		}
+	}
+}
