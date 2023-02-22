@@ -1974,6 +1974,46 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 2')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/dataModelName=data_model_1/y=2022/m=06/d=24/data_a50f8ab9-01f4-4e65-af87-0561deddae56_a5b7a3fd-6210-4ef5-a3ce-2db8c70a31e7.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- run with default settings to validate data exists\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/**',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n-- create db \nCREATE DATABASE MedallionDB\n\n-- use db\nUSE MedallionDB\n\n-- create the view\nCREATE VIEW MedallionView\nAS SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://medalionlaketbmdw.dfs.core.windows.net/silver/factory=1354010702/**',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n\n-- add managed identity credentials\nCREATE CREDENTIAL [https://medalionlaketbmdw.dfs.core.windows.net] WITH IDENTITY='Managed Identity'\n\n-- switch back to master before executing this to grant access\nGRANT REFERENCES ON CREDENTIAL::[https://medalionlaketbmdw.dfs.core.windows.net] TO sqladminuser\n\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Groupby data per month')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
